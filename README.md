@@ -1,5 +1,5 @@
 # Multiclass_LinearSVM_with_SGD
-A demonstration of how to use PyTorch to implement Support Vector Machine with L2 regularizition and one-vs.-all hinge loss
+A demonstration of how to use PyTorch to implement Support Vector Machine with L2 regularizition and one-vs.-all hinge loss. Weighted penalty of each class and square hinge loss are also availabel.
 
 ## Requirements
 * PyTorch==0.2.0 with GPU support
