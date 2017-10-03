@@ -23,8 +23,6 @@ from sklearn.metrics import precision_recall_fscore_support
 from sklearn.utils import shuffle
 """training settings"""
 parser = argparse.ArgumentParser(description='Linear SVM with SGD')
-parser.add_argument('--C',type=float, default=1.0,metavar='C',
-                    help='penalty parameter C of the error term')
 parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                     help='input batch size for training (default: 256)')
 parser.add_argument('--test-batch-size', type=int, default=60, metavar='N',
@@ -211,19 +209,12 @@ def train(epoch):
         data,target=Variable(data),Variable(target)
         optimizer.zero_grad()
         output=model(data)
-        #output1=output#print(output)
-        #target1=target#print(target)
-        #tloss=weighted_binary_cross_entropy(output,target,wei)
-        tloss=loss(output,target)##focalLoss(output,target)#focalLoss(output,target)#F.nll_loss(output,target)#
+        tloss=loss(output,target)
         training_loss+=tloss.data[0]
         tloss.backward()
         optimizer.step()
         pred = output.data.max(1, keepdim=True)[1]
         training_f1+=f1_score(target.data.cpu().numpy(),pred.cpu().numpy(),labels=np.arange(n_class).tolist(),average='macro')
-        #if batch_idx % args.log_interval==0:
-        #    print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-        #        epoch, batch_idx * len(data), len(trn_loader.dataset),
-        #        100. * batch_idx / len(trn_loader), tloss.data[0]))
     print('Epoch: {}'.format(epoch))
     print('Training set avg loss: {:.4f}'.format(training_loss/len(trn_loader)))
     print('Training set avg micro-f1: {:.4f}'.format(training_f1/len(trn_loader)))
@@ -239,7 +230,6 @@ def test():
         output = model(data)
         test_loss += F.nll_loss(output, target, size_average=False).data[0] # sum up batch loss
         pred = output.data.max(1, keepdim=True)[1] # get the index of the max log-probability
-        #correct += pred.eq(target.data.view_as(pred)).cpu().sum()
         preds+=pred.cpu().numpy().tolist()
     test_loss /= len(tst_loader.dataset)
     conf_mat=confusion_matrix(y_test_list,preds)
