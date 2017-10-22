@@ -6,5 +6,5 @@ A demonstration of how to use PyTorch to implement Support Vector Machine with o
 * Python==3.5
 
 ## Approach
-* The key idea is to optimize a linear classifier with [one-vs.-all Hinge loss](https://en.wikipedia.org/wiki/Hinge_loss) proposed by Dr. Weston and Dr. Watkins.
+* The key idea is to optimize a linear classifier with [one-vs-all Hinge loss](https://en.wikipedia.org/wiki/Hinge_loss) proposed by Dr. Weston and Dr. Watkins.
 * For more details, please refer the loss function in the code.
